@@ -1,7 +1,7 @@
 # Digital SNU Library (DSL)
 The DSL aims at making library search more fast and efficient. We, as students of SNU, have always faced the bad interface of online library website on cell phone. The website looks like this on a phone.
 
-<img src="screenshots/snu_on_phone.png" height="500" align="center">
+<p align="center"><img src="screenshots/snu_on_phone.png" height="500"></p>
 
 There is no cell phone dedicated website for the SNU Library. Therefore, DSL can significantly reduce your efforts here because most of the students use library website when a professor recommends some books. At that point, everyone attacks on the website through a cell phone (few through computers as well). The condition of the website is something which you have witnessed above. The screenshot below shows the library app home screen, which has a quite simple interface.
 
