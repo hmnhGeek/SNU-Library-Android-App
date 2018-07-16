@@ -1,0 +1,19 @@
+
+
+Digital SNU Library App aims to provide a faster approach of finding books in the SNU library. This is the very first version of the app and I would like you to provide a proper feedback and if possible, then some improvement suggestions too. I will highly appreciate that.
+
+I am thinking of adding a feature in this app through which you can contact me without any email, a separate window in this app where you can write your reviews and feedbacks easily. For now, if you sincerely want something to be added in this app, please mail me here,
+
+snulib8@gmail.com
+
+I may or may not reply :), because, as you might have noticed, this email is specifically created for this app.
+
+Before I sign off, I would like to tell you that the upcoming versions MIGHT include;
+1. An inbuilt dictionary.
+2. Statistical data of the number of people searching for a particular book on a given day.
+3. Feedback window, as discussed above.
+
+Language used: Python
+Frameworks used: Kivy and Flask
+
+THE ONE AND ONLY DEVELOPER OF THIS APP: Himanshu Sharma
