@@ -5,11 +5,10 @@ The DSL aims at making library search more fast and efficient. We, as students o
 
 There is no cell phone dedicated website for the SNU Library. Therefore, DSL can significantly reduce your efforts here because most of the students use library website when a professor recommends some books. At that point, everyone attacks on the website through a cell phone (few through computers as well). The condition of the website is something which you have witnessed above. The screenshot below shows the library app home screen, which has a quite simple interface.
 
-![DSL Home](srceenshots/dsl_home.png?style=centerme)
+<p align="center"><img src="screenshots/dsl_home.png" height="500"></p>
 The result page is also quite simple in nature,
 
-![DSL Results](screenshots/dsl_results.png?style=centerme)
-![DSL Book Results](screenshots/dsl_book.png?style=centerme)
+<p align="center"><img src="screenshots/dsl_results.png" height="500"> <img src="screenshots/dsl_book.png" height="500"></p>
 
 The library app also has an interesting feature which the original website does not have. The feature which I think might help you in letting you know your chances to grab the book you are aiming at. This feature tells you the number of people who have searched that particular book **recently**. This feature sets to its default value (i.e. zero) at UTC 12 AM. The app also provides you with ISBN of the book which can be quite helpful for you if you want to know more about the book.
 
