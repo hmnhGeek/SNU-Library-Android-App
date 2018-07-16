@@ -1,0 +1,6 @@
+
+
+1. The SNU Library website is scraped for providing the information in this app. The functionality of the app totally depends on the website. Any change in the source of the website has to be tackled by the developer and up until then, the app may not work.
+
+
+2. The developer is not, in any way, associated with the library. This app is an independent work, of which, neither the library nor the administration is answerable to. The other way round is also true.

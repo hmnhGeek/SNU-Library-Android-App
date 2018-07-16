@@ -1,0 +1,839 @@
+#: import thd threading
+<HomePage>:
+	name: "home"
+	BoxLayout:
+		GridLayout:
+			rows: 7
+			cols: 1
+			Label:
+				text: "Welcome to Digital SNU Library"
+				size_hint: 1, 0.1
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, .5, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 0,0,0,1
+			TextInput:
+				id: search_input
+				hint_text: "Please type the book (or ISBN)..."
+				size_hint: 1, 0.2
+				multiline: False
+				font_size: 50
+
+			GridLayout:
+				cols: 3
+				size_hint: 0.5, 0.15
+				Button:
+					text: "Search"
+					on_press: root.begin_search_thread()
+					size_hint: 1, 1
+				Button:
+					text: "ISBN Search"
+					on_press: root.begin_build_thread()
+					size_hint: 1, 1
+				Button:
+					text: "Clear Input"
+					on_press: root.ids.search_input.text = ""
+					size_hint: 1, 1
+			GridLayout:
+				size_hint: 0.5, 0.45
+				rows: 3
+				Button:
+					text: "Dictionary"
+					on_release: root.manager.current = "dictionary"
+					text_size: self.width, None
+	                height: self.texture_size[1]
+	                halign: "center"
+	                valign: "center"
+	                size: self.texture_size
+				Button:
+					text: "Note from Developer"
+					on_release: root.manager.current = "about"
+					text_size: self.width, None
+	                height: self.texture_size[1]
+	                halign: "center"
+	                valign: "center"
+	                size: self.texture_size
+	            Button:
+					text: "Disclaimer"
+					on_release: root.manager.current = "disclaims"
+					text_size: self.width, None
+	                height: self.texture_size[1]
+	                halign: "center"
+	                valign: "center"
+	                size: self.texture_size
+	        Label:
+				size_hint: 1, 0.1
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, .5, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 0,0,0,1
+
+			GridLayout:
+				canvas.before:
+			        Color:
+			            rgba: 251/255., 252/255., 252/255., 1
+			        Rectangle:
+			            pos: self.pos
+			            size: self.size
+				rows: 2
+				cols: 1
+				Label:
+					text: "Notification Window"
+					size_hint: 1, 0.2
+					canvas.before:
+		                Color:
+		                    rgba: 0, 0.5, 1, 1
+		                Rectangle:
+		                    pos: self.pos
+		                    size: self.size
+		            color: 0.5,1,0,1
+		        ScrollView:
+					Label:
+						id: notifier
+						text: "\n\n\n\n\n\nNotifications from the Developer appear here..."
+						size_hint: 1, None
+		                text_size: self.width, None
+		                height: self.texture_size[1]
+		                size: self.texture_size
+		                halign: "center"
+		                valign: "middle"
+		                color: 0, 0, 0, 1
+		                canvas.before:
+			                Color:
+			                    rgba: 251/255., 252/255., 252/255., 1
+			                Rectangle:
+			                    pos: self.pos
+			                    size: self.size
+		    Label:
+				size_hint: 1, 0.1
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, .5, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 0,0,0,1
+
+
+<Loader>:
+	canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "background.png"
+
+	name: "loading_screen"
+	BoxLayout:
+		GridLayout:
+			rows: 1
+			cols: 1
+			Label:
+				text: "\n\n\n\n\n\n\n\nLoading...\nPlease wait..."
+				size_hint: 1, None
+                text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                size: self.texture_size
+                font_size: 50
+                color: 0,0,0,1
+
+<BookResultPage>:
+	name: "books_page"
+	canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "light.png"
+	BoxLayout:
+		GridLayout:
+			rows: 3
+			Label:
+				id: title_heading
+				size_hint: 1, 0.1
+				text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+                canvas.before:
+	                Color:
+	                    rgba: 0.5, 0.5, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 0,0,0,1
+			ScrollView:
+				Label:
+					id: results_label
+					markup: True
+					size_hint: 1, None
+	                text_size: self.width, None
+	                height: self.texture_size[1]
+	                halign: "center"
+	                valign: "center"
+	                size: self.texture_size
+	                on_ref_press: root.start_data_thread(args[1])
+	                
+			Button:
+				text: "Home"
+				size_hint : 1, 0.1
+				on_release: root.manager.current = "home"
+
+<BookShelf>:
+	canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "light.png"
+	name: "book_shelf"
+	BoxLayout:
+		GridLayout:
+			rows: 7
+			Label:
+				id: book_title
+				text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+				size_hint: 1, 0.2
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, 0.7, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 0,0,0,1
+
+	        Label:
+	        	id: book_search_data
+	        	text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+				size_hint: 1, 0.2
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, 0.5, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+	            color: 1,0.9,0.5,1
+	        Label:
+	        	text: "ISBN"
+	        	size_hint: 1, 0.3
+	        	canvas.before:
+	                Color:
+	                    rgba: 0.5, 0, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+			Label:
+				id: isbn
+				text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+                on_ref_press: root.book_details_thread()
+                markup: True
+
+			Label:
+				text:"Shelf Information"
+				size_hint: 1, 0.3
+				canvas.before:
+	                Color:
+	                    rgba: 0.5, 0, 0, 1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+			Label:
+				id: shelf
+				text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+
+            GridLayout:
+            	cols: 3
+            	size_hint: 1, 0.3
+				Button:
+					text: "Home"
+					size_hint : 1, 0.4
+					on_release: root.manager.current = "home"
+				Button:
+					text: "Book Cover"
+					size_hint : 1, 0.4
+					on_release: root.download_cover()
+				Button:
+					text: "Previous Screen"
+					size_hint : 1, 0.4
+					on_release: root.manager.current = "books_page"
+
+
+<NOInternet>:
+	BoxLayout:
+		GridLayout:
+			rows: 2
+			Label:
+				text: "No internet connection!"
+				text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "center"
+                size: self.texture_size
+				canvas.before:
+					Color:
+						rgba: 1, 0, 0, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+            Button:
+				text: "Home"
+				size_hint : 1, 0.1
+				on_release: root.manager.current = "home"
+
+<About>:
+	name: "about"
+	BoxLayout:
+		GridLayout:
+			rows: 3
+			canvas.before:
+		        Rectangle:
+		            pos: self.pos
+		            size: self.size
+		            source: "light.png"
+			Label:
+				text: "About Digital SNU Library"
+				canvas.before:
+					Color:
+						rgba: 0.5, 0.5, 0, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				text_size: self.width, None
+	            height: self.texture_size[1]
+	            halign: "center"
+	            valign: "center"
+	            size: self.texture_size	
+				size_hint: 1, 0.1
+				color: 0,0,0,1
+			ScrollView:
+		        Label:
+		        	size_hint: 1, None
+		        	text: root.load_about()
+		        	text_size: self.width, None
+		            height: self.texture_size[1]
+		            halign: "center"
+		            valign: "center"
+		            size: self.texture_size	
+		            color: 1, 1, 1, 1
+	        Button:
+				text: "Home"
+				size_hint : 1, 0.1
+				on_release: root.manager.current = "home"
+
+
+<DisClaimer>:
+	name: "disclaims"
+	BoxLayout:
+		GridLayout:
+			rows: 3
+			canvas.before:
+		        Rectangle:
+		            pos: self.pos
+		            size: self.size
+		            source: "light.png"
+			Label:
+				text: "Disclaimer"
+				canvas.before:
+					Color:
+						rgba: 0.5, 0.5, 0, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				text_size: self.width, None
+	            height: self.texture_size[1]
+	            halign: "center"
+	            valign: "center"
+	            size: self.texture_size	
+				size_hint: 1, 0.1
+				color: 0,0,0,1
+			ScrollView:
+		        Label:
+		        	size_hint: 1, None
+		        	text: root.load_disclaimer()
+		        	text_size: self.width, None
+		            height: self.texture_size[1]
+		            halign: "center"
+		            valign: "center"
+		            size: self.texture_size	
+	        Button:
+				text: "Home"
+				size_hint : 1, 0.1
+				on_release: root.manager.current = "home"
+
+<CoverPage>:
+	name: "cover_page"
+	BoxLayout:
+		canvas.before:
+	        Rectangle:
+	            pos: self.pos
+	            size: self.size
+	            source: "background.png"
+	    GridLayout:
+	    	rows: 2
+	    	AsyncImage:
+	    		id: cover_image
+	    		keep_ratio: True
+        		allow_stretch: True
+	    	Button:
+	    		text: "Back"
+	    		size_hint : 1, 0.1
+	    		on_press: app.del_covers()
+				on_release: root.manager.current = "book_shelf"
+
+<BookDetailsPage>:
+	name: "details"
+	BoxLayout:
+		canvas.before:
+	        Rectangle:
+	            pos: self.pos
+	            size: self.size
+	            source: "light.png"
+	    GridLayout:
+	    	rows: 2
+		    ScrollView:
+			    GridLayout:
+			    	rows: 14
+			    	size_hint_y: None
+			    	height: self.minimum_height
+
+			    	Label:
+			    		text: "Book Title"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+					
+					Label:
+						id: book_title
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Authors"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+					
+					Label:
+						id: book_authors
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Published Date"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+				
+					Label:
+						id: book_pubdate
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Page Count"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1,None
+						color: 0,0,0,1
+					
+					Label:
+						id: book_pagecount
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Categories"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+					Label:
+						id: book_category
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Description"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+					Label:
+						id: book_description
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+
+					Label:
+						text: "Cover"
+			    		canvas.before:
+							Color:
+								rgba: 1, 0, 0, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+
+					AsyncImage:
+						size_hint: 1, None
+						height: 500
+						id: book_cover
+						keep_ratio: True
+		    			allow_stretch: True
+
+			Button:
+	    		text: "Back"
+	    		size_hint : 1, 0.1
+	    		on_press: app.del_covers()
+				on_release: root.manager.current = root.get_previous_screen()
+
+<Dictionary>:
+	name: "dictionary"
+	BoxLayout:
+		canvas.before:
+	        Rectangle:
+	            pos: self.pos
+	            size: self.size
+	            source: "light.png"
+		GridLayout:
+			rows: 3
+			spacing: 10
+			GridLayout:
+				rows: 2
+				size_hint: 1, 0.05
+				Label:
+					text: "Dictionary"
+					canvas.before:
+						Color:
+							rgba: 0.5, 0.5, 0, 1
+						Rectangle:
+							pos: self.pos
+							size: self.size
+					text_size: self.width, None
+		            height: self.texture_size[1]
+		            halign: "center"
+		            valign: "center"
+		            size: self.texture_size	
+					color: 0,0,0,1
+
+				GridLayout:
+					cols: 3
+					rows: 1
+					size_hint: 1, 0.1
+					TextInput:
+						id: dict_input
+						hint_text: "A word here please..."
+						size_hint: 0.6, None
+						multiline: False
+						font_size: 50
+
+					Button:
+						size_hint: 0.2, None
+						text: "Erase"
+						on_press: root.clear()
+
+					Button:
+						size_hint: 0.2, None
+						text: "Search"
+						on_press: root.search_meaning_thread()
+			Label:
+				id: blank_label
+				size_hint: 1, 0.6
+			GridLayout:
+				rows: 2
+				size_hint: 1, 0.15
+				Button:
+					text: "Delete A/C"
+					on_press: root.del_ac()
+				Button:
+					text: "Home"
+					on_press: root.manager.current = "home"
+
+<DictionaryRegister>:
+	name: "dict_reg"
+	BoxLayout:
+		canvas.before:
+	        Rectangle:
+	            pos: self.pos
+	            size: self.size
+	            source: "light.png"
+	    GridLayout:
+	    	rows: 2
+	    	spacing: 10
+		    ScrollView:
+			    GridLayout:
+			    	rows: 5
+			    	size_hint_y: None
+					height: self.minimum_height
+
+					Label:
+						text: root.load_about()
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+					Label:
+						text: "App ID"
+						canvas.before:
+							Color:
+								rgba: 1,0,0,1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+					TextInput:
+						id: app_id
+						hint_text: "Your unique app id here..."
+						size_hint: 1, None
+						multiline: False
+						font_size: 50
+					Label:
+						text: "App Key"
+						canvas.before:
+							Color:
+								rgba: 1,0,0,1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+					TextInput:
+						id: app_key
+						hint_text: "Your unique app key here..."
+						size_hint: 1, None
+						multiline: False
+						font_size: 50
+			GridLayout:
+				rows: 3
+				size_hint: 1, 0.3
+				Button:
+					text: "Register"
+					on_press: root.register()
+				Button:
+					text: "Back"
+					on_release: root.manager.current = "dictionary"
+				Button:
+					text: "Home"
+					on_release: root.manager.current = "home"
+
+<DictionaryResults>:
+	name: "dict_results"
+	BoxLayout:
+		canvas.before:
+	        Rectangle:
+	            pos: self.pos
+	            size: self.size
+	            source: "light.png"
+		GridLayout:
+			rows: 3
+			Label:
+				id: dict_title
+				canvas.before:
+					Color:
+						rgba: 0.5, 0.5, 0, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				text_size: self.width, None
+	            height: self.texture_size[1]
+	            halign: "center"
+	            valign: "center"
+	            size: self.texture_size	
+				size_hint: 1, None
+				color: 0,0,0,1
+
+			ScrollView:
+				GridLayout:
+			    	rows: 4
+			    	size_hint_y: None
+					height: self.minimum_height
+
+					Label:
+						text: "Word Meaning"
+						canvas.before:
+							Color:
+								rgba: 1,0,0,1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0,0,0,1
+					Label:
+						id: meaning
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+					Label:
+						text: "Examples"
+						canvas.before:
+							Color:
+								rgba: 1,0,0,1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 0, 0, 0, 1
+					Label:
+						id: examples
+						text_size: self.width, None
+			            height: self.texture_size[1]
+			            halign: "center"
+			            valign: "center"
+			            size: self.texture_size	
+						size_hint: 1, None
+						color: 1,1,1,1
+			GridLayout:
+				cols: 2
+				size_hint: 1, 0.1
+				Button:
+					text: "Home"
+					on_release: root.manager.current = "home"
+				Button:
+					text: "Back"
+					on_release: root.manager.current = "dictionary"
