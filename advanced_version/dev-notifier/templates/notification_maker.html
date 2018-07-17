@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dev Notifier!</title>
+</head>
+<body>
+<h1> Welcome Himanshu! </h1>
+	<form action="http://dev-notifier.herokuapp.com/notifier" method="POST" enctype="multipart/form-data">
+		Enter message to broadcast: <br><textarea rows="10" cols="80" name="notification"></textarea> <br>
+		Message expires after <input type="text" name="expiry"> seconds. <br>
+		<input type="submit">
+	</form>
+</body>
+</html>
